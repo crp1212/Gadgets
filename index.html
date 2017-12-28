@@ -1,36 +1,97 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>tem</title><script src=static/socket.io.js></script><script src=static/ajax.js></script><style>*{margin:0;padding:0}
-        html, body{height:100%;}
-        body{
-            width:100%;
-            overflow:hidden;
-            user-select: none
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=qnqItv6SYcjNsa8y5nrQq3tuD7dherjU"></script>
+    <title>地图展示</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div id="allmap"></div>
+    <!-- <div id="big">ww</div> -->
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");    // 创建Map实例
+	map.centerAndZoom(new BMap.Point(112.987274,28.200018), 11);  // 初始化地图,设置中心点坐标和地图级别
+	//添加地图类型控件
+	map.addControl(new BMap.MapTypeControl({
+		mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+        ]}));	  
+	map.setCurrentCity("长沙");          // 设置地图显示的城市 此项是必须设置的
+	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    count = 11
+    
+    var arr = [
+        {
+            point: [112.987274,28.200018],
+            title: '住的酒店'
+        },
+        {
+            point: [112.980327,28.196233],
+            title: '火宫殿'
+        },
+        {
+            point: [112.968668,28.193256],
+            title: '橘子洲景区'
+        },
+        {
+            point: [112.978258,28.197572],
+            title: '太平街'
+        },
+        {
+            point: [112.975192,28.190425],
+            title: '杜甫江阁'
+        },
+        {
+            point: [112.978491,28.198182],
+            title: '贾谊故居'
+        },
+        {
+            point: [112.998228,28.21615],
+            title: '省博物馆'
+        },
+        {
+            point: [112.95128,28.184919],
+            title: '湖南大学'
+        },
+        {
+            point: [113.006298,28.214992],
+            title: '烈士公园'
+        },
+        {
+            point: [112.903855,28.193658],
+            title: '梅溪湖公园'
+        },
+        {
+            point: [112.792067,28.461367],
+            title: '靖港古镇'
         }
-        .test{
-            width:100%;
-            height:100%;
-            background:blue;
-            padding:20px 30px;
-            box-sizing: border-box;
-        }
-        .test-child{
-            background:red;
-            height:100%;
-            text-align: center;
-            position: relative;
-        }
-        .test-child-child{
-            position: absolute;
-            top:0;
-            bottom:0;
-            margin:0 auto;
-        }
-        #app{
-            height:200px;
 
-        }</style><link href=/static/css/app.eae8182a2d638215abf6d082dbf44f33.css rel=stylesheet></head><body><div id=app><div id=rest>ddd</div></div><script>var array = [
-            ["北京市","海淀区"],
-            ["北京市","东城区"],
-            ["辽宁省","沈阳市","和平区"],
-            ["辽宁省","沈阳市","铁西区"],
-            ["台湾省"]
-        ]</script><script type=text/javascript src=/static/js/manifest.d9d8a4a85cbf8f2ece59.js></script><script type=text/javascript src=/static/js/vendor.64d2873e0d2b30a3635a.js></script><script type=text/javascript src=/static/js/app.4567bb8b48a3a1d6150d.js></script></body></html>
+    ]
+    function addMarker (o, y) { //
+        var point = new BMap.Point(o.point[0], o.point[1]);
+        var marker = new BMap.Marker(point);  // 创建标注
+        map.addOverlay(marker);              // 将标注添加到地图中
+        if (y == 0) {
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE)
+        }
+        var label = new BMap.Label(o.title,{offset:new BMap.Size(20,-10)});
+        marker.setLabel(label)
+    }
+    arr.forEach(function(x, y){
+        addMarker(x, y)
+    })
+    document.getElementById('big').addEventListener('click', function () {
+        map.setZoom(count++)
+    })
+</script>
